@@ -7,9 +7,14 @@ const API = process.env.NEXT_PUBLIC_API_URL;
 
 
 export default function useDocuments() {
-   const router = useRouter();
+  const router = useRouter();
   const [documents, setDocuments] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  // SSR/SSG safety: don't fetch on server
+  if (typeof window === 'undefined') {
+    return { documents: [], loading: false, refetch: () => {} };
+  }
 
   const fetchDocuments = async () => {
     setLoading(true);

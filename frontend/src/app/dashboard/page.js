@@ -10,14 +10,32 @@ import useDocuments from '@/hooks/useDocuments';
 export default function Dashboard() {
   const [selectedDocId, setSelectedDocId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [documents, setDocuments] = useState([]);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const { documents, loading, refetch } = useDocuments();
+
+  // Only fetch documents on client
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      import('@/hooks/useDocuments').then(({ default: useDocuments }) => {
+        const { documents, loading, refetch } = useDocuments();
+        setDocuments(documents);
+        setLoading(loading);
+        // Optionally expose refetch if needed
+      });
+    }
+  }, []);
 
   // Handler to close modal after upload
   const handleUploadAndClose = () => {
-    refetch();
+    // Refetch logic should be implemented here if needed
     setIsModalOpen(false);
   };
+
+  // Render loading or empty state on server
+  if (typeof window === 'undefined') {
+    return <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col"><Navbar /><main className="flex-1 p-4 md:p-10"><h1 className="text-2xl font-bold">Loading...</h1></main></div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col">

@@ -15,6 +15,9 @@ export async function refreshAccessToken() {
 
 // Universal fetch wrapper that handles JWT refresh
 export async function authFetch(url, options = {}) {
+  if (typeof window === 'undefined') {
+    throw new Error('authFetch should only be called client-side (in the browser).');
+  }
   let access = localStorage.getItem('access');
   // Only set Content-Type to application/json if not sending FormData
   const isFormData = options.body instanceof FormData;
@@ -23,7 +26,6 @@ export async function authFetch(url, options = {}) {
     Authorization: `Bearer ${access}`,
     ...(isFormData ? {} : {'Content-Type': options.headers && options.headers['Content-Type'] ? options.headers['Content-Type'] : 'application/json'})
   };
-
 
   let response = await fetch(url, options);
 
