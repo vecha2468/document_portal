@@ -2,10 +2,7 @@
 
 ## Project Overview
 
-## Hosting Links
 
-- **Frontend (Netlify):** [https://poetic-peony-0c3a84.netlify.app/](https://poetic-peony-0c3a84.netlify.app/)
-- **Backend (Render):** [https://document-portal-8nkc.onrender.com](https://document-portal-8nkc.onrender.com)
 
 
 Document Portal is a full-stack web application that allows users to securely upload, manage, and interact with documents through a modern dashboard interface. The project features a React.js frontend and a Django REST backend, providing authentication, document upload, search, and AI-powered Q&A functionality. The application is designed for SSR safety and is deployable to platforms like Netlify (frontend) and Render (backend).
@@ -90,3 +87,8 @@ The frontend will be available at `http://localhost:3000` and the backend at `ht
 - Responsive, modern UI with navigation between login, signup, and dashboard
 - SSR-safe frontend using React.js best practices
 - Easy deployment to Netlify and Render
+
+## Hosting Links
+
+- **Frontend (Netlify):** [https://poetic-peony-0c3a84.netlify.app/](https://poetic-peony-0c3a84.netlify.app/)
+- **Backend (Render):** [https://document-portal-8nkc.onrender.com](https://document-portal-8nkc.onrender.com)
