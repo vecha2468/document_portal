@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import UploadForm from '@/components/UploadForm';
 import DocumentList from '@/components/DocumentList';
 import QuestionBox from '@/components/QuestionBox';
@@ -10,29 +10,15 @@ import useDocuments from '@/hooks/useDocuments';
 export default function Dashboard() {
   const [selectedDocId, setSelectedDocId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [documents, setDocuments] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { documents, loading, refetch } = useDocuments();
   const router = useRouter();
 
-  // Only fetch documents on client
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      import('@/hooks/useDocuments').then(({ default: useDocuments }) => {
-        const { documents, loading, refetch } = useDocuments();
-        setDocuments(documents);
-        setLoading(loading);
-        // Optionally expose refetch if needed
-      });
-    }
-  }, []);
 
-  // Handler to close modal after upload
   const handleUploadAndClose = () => {
-    // Refetch logic should be implemented here if needed
+    refetch();
     setIsModalOpen(false);
   };
 
-  // Render loading or empty state on server
   if (typeof window === 'undefined') {
     return <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col"><Navbar /><main className="flex-1 p-4 md:p-10"><h1 className="text-2xl font-bold">Loading...</h1></main></div>;
   }
@@ -70,7 +56,7 @@ export default function Dashboard() {
               documents={documents}
               onDelete={refetch}
               onUpdate={refetch}
-              onSelect={(docId) => setSelectedDocId(selectedDocId === docId ? null : docId)}
+              onSelect={docId => setSelectedDocId(selectedDocId === docId ? null : docId)}
               selectedId={selectedDocId}
             />
           </div>
